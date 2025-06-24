@@ -1,0 +1,185 @@
+body {
+  display: flex;
+  background-color: rgb(236, 242, 250);
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding-right: 30px;
+  box-sizing: border-box; /* Add this to include padding in width calculation */
+  overflow: hidden; /* Prevent scrollbars */
+  font-family: "Poppins", sans-serif;
+}
+
+p {
+  margin: 0;
+}
+
+body > div:first-of-type {
+  flex: 1.25;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+.l1 {
+  font-weight: 600;
+  font-size: 2.5rem;
+  margin: 30px 0 0 0 ;
+}
+
+.l2 {
+  font-weight: 400;
+  font-size: 1.2rem;
+  margin-bottom: 50px;
+}
+
+input {
+  border: solid 1px #808080;
+  border-radius: 30px;
+  width: 70%;
+  height: 40px;
+  margin-bottom: 15px;
+  padding-left: 20px;
+}
+
+input:focus {
+  outline: 2px solid rgb(135, 150, 170); /* Remove default browser outline */
+}
+
+input::placeholder {
+  color: #999; /* Light gray color for placeholder */
+  font-family: "Poppins", sans-serif; /* Match your body font */
+  font-size: 1rem; /* Match your body font size */
+}
+
+button.login-btn {
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 30px;
+  width: 74%;
+  height: 45px;
+  margin: 15px 0 30px 0;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.login-btn:hover, .alternatives div:hover{
+  background-color: #333; /* Slightly lighter black on hover */
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  width: 73%;
+}
+
+.line div {
+  border-bottom: solid 2px rgb(211, 209, 209);
+  width: 32%;
+}
+
+.line p {
+  margin: 0 10px 0 10px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.alternatives {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+}
+
+.alternatives div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: black; 
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.alternatives div img {
+  width: 20px;
+  filter: brightness(0) invert(1); /* Makes SVG white */
+  padding: 15px;
+}
+
+body > div:last-of-type {
+  background-color: lightpink;
+  flex: 1.5;
+  height: 90%;
+  margin-right: 10px;
+  border-radius: 70px;
+  position: relative; /* Add this */
+  overflow: hidden; /* Add this */
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This makes the image cover the div */
+  object-position: center; /* Centers the image */
+  display: block; /* Removes extra space below image */
+}
+
+
+
+/* Media query for devices with a max width of 768px (tablets and smaller) */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column; /* Stack elements vertically */
+    padding-right: 0; /* Remove right padding */
+  }
+
+  body > div:first-of-type,
+  body > div:last-of-type {
+    width: 90%; /* Adjust width for smaller screens */
+    height: auto; /* Allow height to adjust based on content */
+    margin-right: 0; /* Remove margin */
+  }
+
+  .alternatives {
+    width: 60%; /* Adjust width for smaller screens */
+  }
+
+  button.login-btn {
+    width: 90%; /* Adjust button width */
+  }
+}
+
+/* Media query for devices with a max width of 480px (phones) */
+@media (max-width: 480px) {
+  .l1 {
+    font-size: 2rem; /* Adjust font size */
+  }
+
+  .l2 {
+    font-size: 1rem; /* Adjust font size */
+  }
+
+  input, button.login-btn {
+    width: 100%; /* Full width for inputs and button */
+  }
+
+  .alternatives {
+    width: 80%; /* Adjust width for smaller screens */
+  }
+
+  .alternatives div img {
+    width: 15px; /* Smaller icon size */
+  }
+}
+
+
+

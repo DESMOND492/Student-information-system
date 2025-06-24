@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>student Management</title>
+  <link rel="stylesheet" href="../css/student-mng.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #f6f7fb;
+      min-height: 100vh;
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      color: #222;
+    }
+    .navbar {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+    }
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo {
+      width: 32px;
+      height: 32px;
+    }
+    .brand {
+      font-weight: 700;
+      font-size: 1.3em;
+      color: #6c47ff;
+      letter-spacing: 1px;
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      color: #444;
+      font-weight: 500;
+      font-size: 1em;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-btn.active, .nav-btn:hover {
+      background: #f3f4fa;
+      color: #6c47ff;
+    }
+    .logout-btn {
+      background: #6c47ff;
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      font-size: 1em;
+      padding: 8px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+    }
+    .logout-btn:hover {
+      background: #4b2fcf;
+    }
+    p {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #222;
+      margin: 32px 0 10px 40px;
+      letter-spacing: 1px;
+    }
+    .actions-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 40px 10px 40px;
+      position: relative;
+    }
+    .search {
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: 1.5px solid #e0e0e0;
+      font-size: 1em;
+      outline: none;
+      width: 220px;
+      transition: border 0.2s;
+      background: #fff;
+      color: #333;
+    }
+    .search:focus {
+      border: 1.5px solid #6c47ff;
+      background: #f6f7fb;
+    }
+    .search-container img, .filter-container img {
+      width: 22px;
+      height: 22px;
+      vertical-align: middle;
+      margin-left: -32px;
+      margin-right: 8px;
+      opacity: 0.6;
+    }
+    .filter-btn {
+      background: #fff;
+      border: 1.5px solid #e0e0e0;
+      color: #6c47ff;
+      font-weight: 500;
+      border-radius: 20px;
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: background 0.2s, border 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: #f3f4fa;
+      border: 1.5px solid #6c47ff;
+      color: #4b2fcf;
+    }
+    .add-btn {
+      background: #6c47ff;
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      font-size: 1em;
+      padding: 8px 22px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-left: auto;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+    }
+    .add-btn:hover {
+      background: #4b2fcf;
+    }
+    /* Modal styles */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.10);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px 32px 22px 32px;
+      min-width: 320px;
+      box-shadow: 0 4px 24px rgba(79,91,213,0.10);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      right: 18px;
+      top: 14px;
+      font-size: 1.2em;
+      color: #888;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .modal-btn {
+      padding: 7px 18px;
+      border-radius: 7px;
+      border: none;
+      font-weight: 600;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .modal-btn.cancel { background: #f3f4fa; color: #222; }
+    .modal-btn.save { background: #6c47ff; color: #fff; }
+    /* Table styles */
+    .students-table {
+      width: 98%;
+      margin: 24px auto 0 auto;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+    }
+    .students-table th, .students-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #f0f0f0;
+      text-align: left;
+    }
+    .students-table th {
+      background: #f3f4fa;
+      font-weight: 600;
+      color: #6c47ff;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    .students-table tr:last-child td {
+      border-bottom: none;
+    }
+    .students-table tr:hover {
+      background: #f6f7fb;
+      transition: background 0.2s;
+    }
+    .filter-dropdown {
+      display: none;
+      position: absolute;
+      background: #fff;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+      padding: 12px 18px;
+      top: 45px;
+      right: 0;
+      z-index: 100;
+      min-width: 180px;
+    }
+    .filter-dropdown label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1em;
+      color: #6c47ff;
+      font-weight: 500;
+    }
+    .filter-dropdown select {
+      width: 100%;
+      padding: 5px 8px;
+      border-radius: 5px;
+      border: 1.5px solid #e0e0e0;
+      background: #f6f7fb;
+      color: #333;
+    }
+    .filter-btn.active + .filter-dropdown {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <div class="logo-container">
+                <img src="../icons and images/school_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"  class="logo">
+                <span class="brand">S.I.S</span>
+            </div>
+            <button class="nav-btn active" onclick="location.href='student.php'">Student</button>
+            <button class="nav-btn" onclick="location.href='dashboard.php'">Dashboard</button>
+            <button class="nav-btn" onclick="location.href='courses.php'">Courses</button>
+            <button class="nav-btn" onclick="location.href='enrollment.php'">Enrolement</button>
+            <button class="nav-btn" onclick="location.href='grades.php'">Grades</button>
+            <button class="nav-btn" onclick="location.href='reports.php'">Reports</button>
+        </div>
+        <button class="logout-btn" onclick="location.href='login.php'">Log out</button>
+    </nav>
+
+    <p>Student Management</p>
+
+    <div class="actions-bar" style="position:relative;">
+        <input type="text" class="search" id="searchInput" placeholder="Search students...">
+        <div class="search-container"><img src="../icons and images/search_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"></div>
+        <button class="filter-btn" id="filterBtn">Filters</button>
+        <div class="filter-container"><img src="../icons and images/filter_alt_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"></div>
+        <div class="filter-dropdown" id="filterDropdown">
+          <label for="filterGrade"> CGPA</label>
+          <select id="filterGrade">
+            <option value="">All</option>
+            <option value="3.60">3.60+</option>
+            <option value="3.20">3.20+</option>
+            <option value="3.00">3.00+</option>
+            <option value="2.60">2.60+</option>
+            <option value="2.00">2.00+</option>
+            <option value="1.90">1.90+</option>
+            <option value="fail">Failing</option>
+          </select>
+          <label for="filterStatus">Status</label>
+          <select id="filterStatus">
+            <option value="">All</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+        <button class="add-btn" id="addStudentBtn">Add student +</button>
+    </div>
+
+    <table class="students-table" id="studentsTable">
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Name</th>
+          <th>CGPA</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Students will be rendered here -->
+      </tbody>
+    </table>
+
+    <!-- Modal for Add Student -->
+    <div class="modal-bg" id="addStudentModal">
+      <div class="modal-content">
+        <button class="modal-close" id="closeModalBtn">&times;</button>
+        <h3>Add Student</h3>
+        <form id="addStudentForm">
+          <label for="studentId">Student ID</label>
+          <input type="text" id="studentId" name="studentId" required>
+          <label for="studentName">Name</label>
+          <input type="text" id="studentName" name="studentName" required>
+          <label for="studentGrade">Grade</label>
+          <input type="number" id="studentGrade" name="studentGrade" min="0" max="100" required>
+          <label for="studentStatus">Status</label>
+          <select id="studentStatus" name="studentStatus" required>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+          <div class="modal-actions">
+            <button type="button" class="modal-btn cancel" id="cancelBtn">Cancel</button>
+            <button type="submit" class="modal-btn save">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Demo student data
+      let students = [
+        { id: "10001", name: "charles sego", grade: 3.93, status: "active" },
+        { id: "10002", name: "Emily Davis", grade: 3.11, status: "active" },
+        { id: "10003", name: "Robert Johnson", grade: 2.94, status: "active" },
+        { id: "10004", name: "Lisa Anderson", grade: 3.27, status: "active" },
+        { id: "10005", name: "Desmond Totime Mawunyo", grade: 3.74, status: "active" },
+        { id: "10006", name: "Dzifa Ama", grade: 2.76, status: "active" },
+        { id: "10007", name: "David Seyram", grade: 1.88, status: "active" },
+        { id: "10008", name: "Sarah Wilson", grade: 3.14, status: "active" },
+        { id: "10008", name: "Emmanuel Kofi", grade: 3.33, status: "active" }
+        
+      ];
+
+      // DOM elements
+      const studentsTable = document.getElementById('studentsTable').getElementsByTagName('tbody')[0];
+      const searchInput = document.getElementById('searchInput');
+      const filterBtn = document.getElementById('filterBtn');
+      const filterDropdown = document.getElementById('filterDropdown');
+      const filterGrade = document.getElementById('filterGrade');
+      const filterStatus = document.getElementById('filterStatus');
+      const addStudentBtn = document.getElementById('addStudentBtn');
+      const addStudentModal = document.getElementById('addStudentModal');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const cancelBtn = document.getElementById('cancelBtn');
+      const addStudentForm = document.getElementById('addStudentForm');
+
+      // Render students
+      function renderStudents(list) {
+        studentsTable.innerHTML = '';
+        if (list.length === 0) {
+          studentsTable.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#888;">No students found.</td></tr>`;
+          return;
+        }
+        list.forEach(stu => {
+          studentsTable.innerHTML += `
+            <tr>
+              <td>${stu.id}</td>
+              <td>${stu.name}</td>
+              <td>${stu.grade}</td>
+              <td>${stu.status.charAt(0).toUpperCase() + stu.status.slice(1)}</td>
+            </tr>
+          `;
+        });
+      }
+
+      // Filter logic
+      function filterStudents() {
+        let query = searchInput.value.trim().toLowerCase();
+        let gradeFilter = filterGrade.value;
+        let statusFilter = filterStatus.value;
+
+        let filtered = students.filter(stu => {
+          // Search by ID or Name
+          let matchesSearch = stu.id.toLowerCase().includes(query) || stu.name.toLowerCase().includes(query);
+
+          // Grade filter
+          let matchesGrade = true;
+          if (gradeFilter === "4.00") matchesGrade = stu.grade === 4.00;
+          else if (gradeFilter === "3.60") matchesGrade = stu.grade >= 3.60;
+          else if (gradeFilter === "3.20") matchesGrade = stu.grade >= 3.20;
+          else if (gradeFilter === "3.00") matchesGrade = stu.grade >= 3.00;
+          else if (gradeFilter === "2.60") matchesGrade = stu.grade >= 2.60;
+          else if (gradeFilter === "2.00") matchesGrade = stu.grade >= 2.00;
+          else if (gradeFilter === "fail") matchesGrade = stu.grade < 1.90;
+
+          // Status filter
+          let matchesStatus = !statusFilter || stu.status === statusFilter;
+
+          return matchesSearch && matchesGrade && matchesStatus;
+        });
+
+        renderStudents(filtered);
+      }
+
+      // Search event
+      searchInput.addEventListener('input', filterStudents);
+
+      // Filter dropdown toggle
+      filterBtn.addEventListener('click', function() {
+        filterBtn.classList.toggle('active');
+        filterDropdown.style.display = filterBtn.classList.contains('active') ? 'block' : 'none';
+      });
+
+      // Filter change events
+      filterGrade.addEventListener('change', filterStudents);
+      filterStatus.addEventListener('change', filterStudents);
+
+      // Hide filter dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!filterBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+          filterBtn.classList.remove('active');
+          filterDropdown.style.display = 'none';
+        }
+      });
+
+      // Add student modal
+      addStudentBtn.addEventListener('click', function() {
+        addStudentModal.style.display = 'flex';
+        addStudentForm.reset();
+      });
+      closeModalBtn.addEventListener('click', function() {
+        addStudentModal.style.display = 'none';
+      });
+      cancelBtn.addEventListener('click', function() {
+        addStudentModal.style.display = 'none';
+      });
+
+      // Add student form submit
+      addStudentForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const id = document.getElementById('studentId').value.trim();
+        const name = document.getElementById('studentName').value.trim();
+        const grade = parseInt(document.getElementById('studentGrade').value, 10);
+        const status = document.getElementById('studentStatus').value;
+        if (!id || !name || isNaN(grade) || !status) return;
+        students.push({ id, name, grade, status });
+        addStudentModal.style.display = 'none';
+        filterStudents();
+      });
+
+      // Initial render
+      renderStudents(students);
+    </script>
+</body>
+</html>
