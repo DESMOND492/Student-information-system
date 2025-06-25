@@ -17,53 +17,89 @@
       min-height: 100vh;
     }
     .sidebar {
-      width: 220px;
-      background: linear-gradient(180deg, #4f5bd5 0%, #5f6ee6 100%);
+      width: 250px;
+      min-height: 96vh;
+      background: rgba(39, 56, 236, 0.75);
       color: #fff;
       display: flex;
       flex-direction: column;
       padding: 0;
+      /* Glassmorphism effect */
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18), 0 1.5px 8px 0 rgba(44,62,80,0.10);
+      border-radius: 24px;
+      margin: 18px 0 18px 18px;
+      border: 1.5px solid rgba(255,255,255,0.18);
+      transition: box-shadow 0.3s;
+    }
+    .sidebar:hover {
+      box-shadow: 0 12px 32px 0 rgba(31, 38, 135, 0.28), 0 2px 12px 0 rgba(44,62,80,0.13);
     }
     .sidebar-header {
       display: flex;
       align-items: center;
       gap: 10px;
       padding: 32px 24px 24px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.13);
     }
     .sidebar-logo {
-      width: 32px;
-      height: 32px;
+      width: 38px;
+      height: 38px;
+      filter: drop-shadow(0 2px 8px rgba(44,62,80,0.10));
     }
     .sidebar-title {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 700;
-      line-height: 1.1;
+      letter-spacing: 1px;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(44,62,80,0.10);
     }
     .sidebar-nav {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-top: 24px;
+      gap: 10px;
+      margin-top: 28px;
+      padding: 0 10px;
     }
     .sidebar-link {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 24px;
+      gap: 14px;
+      padding: 13px 22px;
       color: #e3e3e3;
       text-decoration: none;
       font-weight: 500;
-      border-radius: 8px;
-      transition: background 0.2s, color 0.2s;
-      cursor: pointer;
-      font-size: 1rem;
+      border-radius: 14px;
+      font-size: 1.08rem;
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 2px 8px 0 rgba(44,62,80,0.08);
+      transition: 
+        background 0.2s, 
+        color 0.2s, 
+        box-shadow 0.2s, 
+        transform 0.18s;
+      border: 1px solid rgba(255,255,255,0.10);
+      backdrop-filter: blur(2px);
+      position: relative;
     }
     .sidebar-link.active, .sidebar-link:hover {
-      background: #fff;
+      background: rgba(255,255,255,0.22);
       color: #4f5bd5;
+      box-shadow: 0 4px 16px 0 rgba(44,62,80,0.13);
+      transform: translateY(-2px) scale(1.03);
+      border: 1.5px solid #fff;
+      z-index: 2;
     }
-    .sidebar-icon {
-      font-size: 1.2em;
+    .sidebar-link .sidebar-icon {
+      font-size: 1.25em;
+      filter: drop-shadow(0 1px 4px rgba(44,62,80,0.10));
+      transition: color 0.2s;
+    }
+    .sidebar-link.active .sidebar-icon,
+    .sidebar-link:hover .sidebar-icon {
+      color: #4f5bd5;
+      text-shadow: 0 2px 8px rgba(44,62,80,0.10);
     }
     .main-content {
       flex: 1;
@@ -273,11 +309,11 @@
       <h3 id="modalTitle">Add Grade</h3>
       <form id="gradeForm">
         <label for="studentName">Student Name</label>
-        <input type="text" id="studentName" name="studentName" required>
+        <input type="text" id="studentName" name="studentName" required pattern="^[A-Za-z\s\-']+$" title="Only letters, spaces, hyphens, and apostrophes allowed">
         <label for="courseName">Course</label>
         <input type="text" id="courseName" name="courseName" required>
         <label for="instructor">Instructor</label>
-        <input type="text" id="instructor" name="instructor" required>
+        <input type="text" id="instructor" name="instructor" required pattern="^[A-Za-z\s\-']+$" title="Only letters, spaces, hyphens, and apostrophes allowed">
         <label for="grade">Grade</label>
         <input type="text" id="grade" name="grade" required>
         <div class="modal-actions" style="display:flex;justify-content:flex-end;gap:10px;margin-top:8px;">
@@ -396,6 +432,17 @@
             closeModal();
         }
     };
+
+    // Prevent numbers in name fields
+    studentNameInput.addEventListener('input', function() {
+      this.value = this.value.replace(/[^A-Za-z\s\-']/g, '');
+    });
+    courseNameInput.addEventListener('input', function() {
+      this.value = this.value.replace(/[^A-Za-z0-9\s\-']/g, ''); // Allows letters, numbers, spaces, hyphens
+    });
+    instructorInput.addEventListener('input', function() {
+      this.value = this.value.replace(/[^A-Za-z\s\-']/g, '');
+    });
 
     // Initial render
     renderGrades();

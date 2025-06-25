@@ -251,6 +251,11 @@ $conn->close();
         <a href="#" id="showForgot" style="color:#2e2eff;text-decoration:underline;font-size:1em;cursor:pointer;">Forgot Password?</a>
       </div>
 
+      <div style="margin-top:10px;text-align:right;">
+        <span style="font-size:1em;color:#444;">Don't have an account?</span>
+        <a href="registration.php" style="color:#2e2eff;text-decoration:underline;font-size:1em;margin-left:6px;">Register</a>
+      </div>
+
       <!-- Forgot Password Modal -->
       <div id="forgotModal" style="display:none;position:fixed;z-index:2000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.18);align-items:center;justify-content:center;">
         <div style="background:#fff;padding:32px 28px 24px 28px;border-radius:16px;max-width:350px;width:90vw;box-shadow:0 4px 24px rgba(44,62,80,0.10);position:relative;">

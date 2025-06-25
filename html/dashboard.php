@@ -68,53 +68,89 @@ $conn->close();
       min-height: 100vh;
     }
     .sidebar {
-      width: 220px;
-      background: linear-gradient(180deg, #4f5bd5 0%, #5f6ee6 100%);
+      width: 250px;
+      min-height: 98vh; /* Make sidebar longer */
+      background: rgba(45, 62, 251, 0.75);
       color: #fff;
       display: flex;
       flex-direction: column;
       padding: 0;
+      /* Glassmorphism effect */
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      box-shadow: 0 8px 32px 0 rgba(116, 124, 238, 0.92), 0 1.5px 8px 0 rgba(44,62,80,0.10);
+      border-radius: 24px;
+      margin: 18px 0 18px 18px;
+      border: 1.5px solid rgba(255,255,255,0.18);
+      transition: box-shadow 0.3s;
+    }
+    .sidebar:hover {
+      box-shadow: 0 12px 32px 0 rgba(31, 38, 135, 0.28), 0 2px 12px 0 rgba(44,62,80,0.13);
     }
     .sidebar-header {
       display: flex;
       align-items: center;
       gap: 10px;
       padding: 32px 24px 24px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.13);
     }
     .sidebar-logo {
-      width: 32px;
-      height: 32px;
+      width: 38px;
+      height: 38px;
+      filter: drop-shadow(0 2px 8px rgba(44,62,80,0.10));
     }
     .sidebar-title {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 700;
-      line-height: 1.1;
+      letter-spacing: 1px;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(95, 167, 239, 0.62);
     }
     .sidebar-nav {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-top: 24px;
+      gap: 10px;
+      margin-top: 28px;
+      padding: 0 10px;
     }
     .sidebar-link {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 24px;
+      gap: 14px;
+      padding: 13px 22px;
       color: #e3e3e3;
       text-decoration: none;
       font-weight: 500;
-      border-radius: 8px;
-      transition: background 0.2s, color 0.2s;
-      cursor: pointer;
-      font-size: 1rem;
+      border-radius: 14px;
+      font-size: 1.08rem;
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 2px 8px 0 rgba(44,62,80,0.08);
+      transition: 
+        background 0.2s, 
+        color 0.2s, 
+        box-shadow 0.2s, 
+        transform 0.18s;
+      border: 1px solid rgba(255,255,255,0.10);
+      backdrop-filter: blur(2px);
+      position: relative;
     }
     .sidebar-link.active, .sidebar-link:hover {
-      background: #fff;
+      background: rgba(255,255,255,0.22);
       color: #4f5bd5;
+      box-shadow: 0 4px 16px 0 rgba(44,62,80,0.13);
+      transform: translateY(-2px) scale(1.03);
+      border: 1.5px solid #fff;
+      z-index: 2;
     }
-    .sidebar-icon {
-      font-size: 1.2em;
+    .sidebar-link .sidebar-icon {
+      font-size: 1.25em;
+      filter: drop-shadow(0 1px 4px rgba(44,62,80,0.10));
+      transition: color 0.2s;
+    }
+    .sidebar-link.active .sidebar-icon,
+    .sidebar-link:hover .sidebar-icon {
+      color: #4f5bd5;
+      text-shadow: 0 2px 8px rgba(44,62,80,0.10);
     }
     .main-content {
       flex: 1;
@@ -167,40 +203,59 @@ $conn->close();
       margin-bottom: 32px;
       flex-wrap: wrap;
     }
+    /* 3D Morph Glass Style for Dashboard Cards */
     .dashboard-card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 2px 12px rgba(79,91,213,0.07);
+      background: rgba(255,255,255,0.18);
+      border-radius: 22px;
+      box-shadow:
+        0 8px 32px 0 rgba(79,91,213,0.13),
+        0 1.5px 8px 0 rgba(44,62,80,0.10),
+        0 2px 16px 0 rgba(44,62,80,0.08);
       display: flex;
       align-items: center;
       gap: 18px;
-      padding: 24px 32px;
+      padding: 28px 38px;
       min-width: 210px;
       flex: 1 1 180px;
+      backdrop-filter: blur(12px) saturate(160%);
+      -webkit-backdrop-filter: blur(12px) saturate(160%);
+      border: 1.5px solid rgba(255,255,255,0.22);
+      transition: box-shadow 0.25s, transform 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .dashboard-card:hover {
+      box-shadow:
+        0 16px 48px 0 rgba(79,91,213,0.18),
+        0 4px 24px 0 rgba(44,62,80,0.13);
+      transform: translateY(-4px) scale(1.025);
+      background: rgba(255,255,255,0.28);
     }
     .card-icon {
       font-size: 2.1em;
-      border-radius: 12px;
-      width: 48px;
-      height: 48px;
+      border-radius: 16px;
+      width: 54px;
+      height: 54px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-right: 0;
+      box-shadow: 0 2px 12px rgba(79,91,213,0.10);
+      background: rgba(255,255,255,0.32);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
-    .card-icon-blue { background: #e3e8fd; color: #4f5bd5; }
-    .card-icon-pink { background: #fde3f0; color: #e85aad; }
-    .card-icon-green { background: #e3f9ed; color: #3ecf8e; }
-    .card-icon-yellow { background: #fff7e3; color: #f7b731; }
     .card-value {
-      font-size: 1.5em;
+      font-size: 1.6em;
       font-weight: 700;
       color: #222;
+      text-shadow: 0 2px 8px rgba(44,62,80,0.07);
     }
     .card-label {
       font-size: 1em;
       color: #888;
       font-weight: 500;
+      text-shadow: 0 1px 4px rgba(44,62,80,0.04);
     }
     .enrollments-section {
       background: #fff;
@@ -400,6 +455,7 @@ $conn->close();
         <a class="sidebar-link" href="student.php"><span class="sidebar-icon">👤</span> Students</a>
         <a class="sidebar-link" href="courses.php"><span class="sidebar-icon">📚</span> Courses</a>
         <a class="sidebar-link" href="enrollment.php"><span class="sidebar-icon">📝</span> Enrollments</a>
+        <a class="sidebar-link" href="grades.php"><span class="sidebar-icon">✅</span> grades</a>
         <a class="sidebar-link" href="reports.php"><span class="sidebar-icon">📊</span> Reports</a>
         <a class="sidebar-link" href="logout.php"><span class="sidebar-icon">🚪</span> Logout</a>
       </nav>

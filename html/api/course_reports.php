@@ -60,7 +60,11 @@ try {
         exit();
     } elseif ($export === 'pdf') {
         // Handle PDF export
-        require_once '../vendor/autoload.php';
+        // Ensure Composer's autoloader is included
+        require_once __DIR__ . '/../../vendor/autoload.php';
+        if (!class_exists('\Mpdf\Mpdf')) {
+            throw new Exception("mPDF library not found. Please install it via Composer: composer require mpdf/mpdf");
+        }
         $mpdf = new \Mpdf\Mpdf();
         
         $html = '<h1>Course Report</h1>';
